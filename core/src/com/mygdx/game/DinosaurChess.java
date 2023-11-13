@@ -9,15 +9,56 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Game;
+
+
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+public class DinosaurChess extends Game {
+    public static DinosaurChess game;
+    private SpriteBatch batch;
+    private Music menuMusic;
+
+    @Override
+    public void create() {
+        game = this;
+        batch = new SpriteBatch();
+
+        // Create the shared music instance
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/music/menu.mp3"));
+        menuMusic.setLooping(true);
+        menuMusic.setVolume(0.5f);
+        menuMusic.play();
+
+        // Set the title screen as the initial screen
+        setScreen(new TitleScreen(batch, menuMusic));
+    }
+
+    @Override
+    public void render() {
+        super.render();
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        menuMusic.dispose();
+    }
+}
 
 
 
+
+
+/*
 public class DinosaurChess extends ApplicationAdapter {
     SpriteBatch batch;
     Texture img;
-
     Music menuMusic;
-
 
     @Override
     public void create () {
@@ -65,8 +106,6 @@ public class DinosaurChess extends ApplicationAdapter {
         batch.end();
     }
 
-
-
     @Override
     public void dispose () {
         batch.dispose();
@@ -75,112 +114,5 @@ public class DinosaurChess extends ApplicationAdapter {
     }
 }
 
-
-/*
-// TitleScreen.java
-public class TitleScreen extends DinosaurChess {
-
-    public TitleScreen(Game game) {
-        this.game = game;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    }
-
-    @Override
-    public void show() {
-        // Initialize title screen assets and resources here
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Render title screen here
-
-        if (TimeUtils.timeSinceMillis(startTime) > 4000) {
-            game.setScreen(new MenuScreen(game));
-        }
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        camera.setToOrtho(false, width, height);
-    }
-
-    // Other Screen methods...
-
-}
-
-// MenuScreen.java
-public class MenuScreen implements Screen {
-    private Game game;
-    private Stage stage;
-    private TextButton playButton, howToPlayButton, settingsButton;
-
-    public MenuScreen(Game game) {
-        this.game = game;
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
-
-        // Initialize menu screen assets and resources here
-
-        // Create buttons
-        playButton = new TextButton("Play", skin);
-        howToPlayButton = new TextButton("How to Play", skin);
-        settingsButton = new TextButton("Settings", skin);
-
-        // Set button positions and add them to the stage
-        // (You need to set up a skin for the buttons or customize their appearance)
-
-        // Add click listeners to the buttons
-        playButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlayScreen(game));
-            }
-        });
-
-        howToPlayButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new HowToPlayScreen(game));
-            }
-        });
-
-        settingsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new SettingsScreen(game));
-            }
-        });
-
-        // Add buttons to the stage
-        stage.addActor(playButton);
-        stage.addActor(howToPlayButton);
-        stage.addActor(settingsButton);
-    }
-
-    @Override
-    public void show() {
-        // Other initialization code
-    }
-
-    @Override
-    public void render(float delta) {
-        // Other rendering code
-
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
-
-    // Other Screen methods...
-
-}
 
 */
